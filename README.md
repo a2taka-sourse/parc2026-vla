@@ -87,6 +87,16 @@ Google Colab（A100 / L4）で動かす前提です。Hugging Face のトーク�
 - 推論: `chunk_size`=50 のうち `n_action_steps`=10 を実行して再観測、誤差拡散平滑化 α=0.5
 - 環境: Google Colab（A100）、LeRobot 0.6.0 + peft
 
+## 重みとデータ（Hugging Face）
+
+| 種類 | 場所 | 公開 |
+| --- | --- | --- |
+| ベースモデル | [lerobot/pi05_libero_finetuned_v044](https://huggingface.co/lerobot/pi05_libero_finetuned_v044)（revision `8e174154`） | 公開 |
+| 学習データ | [lerobot/libero_plus](https://huggingface.co/datasets/lerobot/libero_plus)（revision `f3f49f42`） | 公開 |
+| 予選の提出重み（LoRA をマージ済み） | Hugging Face の [a2taka-sourse](https://huggingface.co/a2taka-sourse) に非公開で保管 | 非公開 |
+
+提出した重みのハッシュは `model.safetensors` が SHA-256 `9981b9d1…f356` です。マージ済みの重みは Gemma Terms of Use に従うため公開していません。ノートブックの最後の節が、マージした重みを非公開リポジトリへ上げる手順です。
+
 ## ライセンス
 
 - このリポジトリのノートブックと文章は MIT です。
