@@ -1,7 +1,9 @@
 # PARC2026 VLA fine-tuning notes
 
 ロボット操作のシミュレーション（LIBERO 系）で、Vision-Language-Action モデルを LoRA で適応させた記録です。
-Physical AI Robot Challenge 2026（PARC2026）の予選 Track 1 で公式スコア **0.36363** を記録し、本選に進みました。
+Physical AI Robot Challenge 2026（PARC2026）の予選 Track 1 で公式スコア **0.36363** を記録し、本選に進みました（配布された学習例の参考スコアは 0.0633、予選終了時の100位は 0.40556、通過は上位200名）。
+
+> **In English** — Notes and Colab notebooks from LoRA fine-tuning of vision-language-action models (SmolVLA, then π0.5) on LIBERO-Plus for the PARC2026 robot-learning competition. Qualifier Track 1 score 0.36363 (organizers' reference example: 0.0633; rank 100 at the close: 0.40556; top 200 advanced); final-round Track 1 0.4059 and Track 2 0.3806. The README records all 19 qualifier submissions, which changes helped and which did not (five inference-time smoothing schemes all hurt; the only big gain came from switching to a larger backbone after measuring that LoRA barely changed behaviour), and a retrospective on why Track 3 stayed at zero. Merged weights are kept private because of the Gemma Terms of Use.
 
 このリポジトリには、学習・マージ・評価に使った Colab ノートブックと、試した手法の結果を置いています。学習済みの重みは置いていません（下記「ライセンス」）。
 
