@@ -1,15 +1,22 @@
 # PARC2026 VLA fine-tuning notes
 
 ロボット操作のシミュレーション（LIBERO 系）で、Vision-Language-Action モデルを LoRA で適応させた記録です。
-Physical AI Robot Challenge 2026（PARC2026）の予選 Track 1 で公式スコア **0.36363** を記録し、本選に進みました（配布された学習例の参考スコアは 0.0633、予選終了時の100位は 0.40556、通過は上位200名）。
+Physical AI Robot Challenge 2026（PARC2026）に個人で参加し、予選を **411人中151位**（最終評価 0.40818）で通過、本選第1ラウンドは **174人中147位**（最終評価の合計 0.67606）で敗退しました。
 
-> **In English** — Notes and Colab notebooks from LoRA fine-tuning of vision-language-action models (SmolVLA, then π0.5) on LIBERO-Plus for the PARC2026 robot-learning competition. Qualifier Track 1 score 0.36363 (organizers' reference example: 0.0633; rank 100 at the close: 0.40556; top 200 advanced); final-round Track 1 0.4059 and Track 2 0.3806. The README records all 19 qualifier submissions, which changes helped and which did not (five inference-time smoothing schemes all hurt; the only big gain came from switching to a larger backbone after measuring that LoRA barely changed behaviour), and a retrospective on why Track 3 stayed at zero. Merged weights are kept private because of the Gemma Terms of Use.
+| 段階 | 順位 | 最終評価（運営の集計） | リーダーボード（提出ごとの値） |
+| --- | --- | --- | --- |
+| 予選 | 151 / 411（上位200名が通過） | 0.40818 | 0.36363 |
+| 本選第1ラウンド | 147 / 174 | 合計 0.67606（Track 1 0.43439・Track 2 0.24167・Track 3 0） | Track 1 0.4059・Track 2 0.3806 |
+
+最終評価は、リーダーボードよりタスクと試行の数が多い別の集計で、配点は公開されていません。この README の以下の表の数字は、提出ごとに返ってきたリーダーボードの値です。
+
+> **In English** — Notes and Colab notebooks from LoRA fine-tuning of vision-language-action models (SmolVLA, then π0.5) on LIBERO-Plus for the PARC2026 robot-learning competition. Solo entry. Qualifier: rank 151 of 411 (final evaluation 0.40818; top 200 advanced). Final round 1: rank 147 of 174 (total 0.67606: Track 1 0.43439, Track 2 0.24167, Track 3 0), eliminated. The README records all 19 qualifier submissions, which changes helped and which did not (five inference-time smoothing schemes all hurt; the only big gain came from switching to a larger backbone after measuring that LoRA barely changed behaviour), and a retrospective on why Track 3 stayed at zero. Merged weights are kept private because of the Gemma Terms of Use.
 
 このリポジトリには、学習・マージ・評価に使った Colab ノートブックと、試した手法の結果を置いています。学習済みの重みは置いていません（下記「ライセンス」）。
 
 ## 結果の要約
 
-計19回提出し、スコアを大きく上げたのはバックボーンの交換の1回でした。
+計19回提出し、スコアを大きく上げたのはバックボーンの交換の1回でした（数字はリーダーボードの値）。
 
 | # | 変更 | スコア |
 | --- | --- | ---: |
@@ -31,13 +38,13 @@ Physical AI Robot Challenge 2026（PARC2026）の予選 Track 1 で公式スコ�
 
 本選は3つの Track に分かれ、Track 1 は既知の環境、Track 2 は未知の環境（視点・配置・ノイズなど）、Track 3 は既知の動作を組み合わせた未知の課題です。第1ラウンドの最終提出と、その前に測った主な結果です。
 
-| Track | 最終提出 | 公式スコア | 予選構成からの変化 |
-| --- | --- | ---: | --- |
-| 1 | 選別データで追加学習 + 回転だけ平滑化 | **0.4059** | 0.3636 → 0.4059 |
-| 2 | 全データで 8,000 step 学習し直した版 | **0.3806** | 0.1064 → 0.3806（3.6倍） |
-| 3 | 予選の重みのまま | 0.000 | 4回試して抜け出せず |
+| Track | 最終提出 | リーダーボード | 最終評価 |
+| --- | --- | ---: | ---: |
+| 1 | 選別データで追加学習 + 回転だけ平滑化 | 0.4059（予選構成 0.3636） | **0.43439** |
+| 2 | 全データで 8,000 step 学習し直した版 | 0.3806（予選構成 0.1064） | **0.24167** |
+| 3 | 予選の重みのまま | 0.000 | 0 |
 
-第1ラウンドで敗退しました。
+174人中147位で、第1ラウンドで敗退しました。Track 2 はリーダーボードで予選構成の3.6倍まで伸びましたが、最終評価では 0.24167 にとどまりました。リーダーボードは話数が少なく、Track 2 の 0.3806 は同じ系統の他の版（0.30 前後）より突出していたので、上振れだった可能性が高いと見ています。
 
 ### Track 1・2 で分かったこと
 
